@@ -86,3 +86,32 @@ qemu-system-arm -M versatilepb  \
 ```
 
 Use **Ctrl + a**, **x** to terminate the QEMU.
+
+## Appendix
+### Build Linux kernel based on the existing `.config`
+
+The kernel building process refers to `.config` to generate the image. You can directly use this `.config` to build the kernel next time. The way is like
+
+```
+cp .config $TOP/obj/target-kernel-folder
+make O=$TOP/obj/target-kernel-folder -j4
+```
+
+The `target-kernel-folder` is the target folder. Please, ensure the kernel version is the same. If you cannot ensure it, you have to use `olddefconfig` to configure the new kernel configuration first. The way looks like
+
+```
+cp .config $TOP/obj/target-kernel-folder
+make O=$TOP/obj/target-kernel-folder olddefconfig
+make O=$TOP/obj/target-kernel-folder -j4
+```
+### Build Busybox based on the existing `.config`
+You can use the existing .config to build busybox. Assume the target forder of the busybox is `TARGET_FOLDER_BUYSBOX` and the source code is located in `BUSYBOX_SRC_CODE`. The way look likes
+
+```
+cd $BUSYBOX_SRC_CODE
+make O=$TARGET_FOLDER_BUSYBOX defconfig
+cp the-existing-config $TARGET_FOLDER_BUSYBOX
+cd $TARGET_FOLDER_BUSYBOX
+make -j4
+make install
+```
