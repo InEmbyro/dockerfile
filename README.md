@@ -57,4 +57,19 @@ This Dockerfile is to setup the environment, build linux kernel, and busybox. Th
 
 The details refers to [ubuntu-kernel](ubuntu-kernel-dockerfile.md)
 
+## Dockerfile, doxygen_env.dockerfile
 
+This dockerfile is to setup the environment that is used to generate Doxygen document in the PDF format.
+The output file name is refman.pdf.
+
+### Usage
+
+Use the below command to create the image.
+```
+docker build -t crow/ubuntu:doxygenT01 -f ./doxygen_env.dockerfile .
+```
+
+Once the image was created, you can use the below command to create the PDF file of Doxygen document. The `{DOXYGEN_CONFIG_FILE}` is the doxygen configuration file. The `$PWD` is the folder in which the source code is located. This example is in macOS or Ubuntu environment.
+```
+docker run --privileged -it --rm -v $PWD:/root/data crow/ubuntu:doxygenT01 /root/makepdf.sh {DOXYGEN_CONFIG_FILE}
+```
