@@ -17,7 +17,7 @@ RUN apt-get install -y texlive-latex-base
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y tzdata
 RUN apt-get install -y preview-latex-style texlive-latex-extra texlive-latex-recommended preview-latex-style texlive-latex-extra texlive-latex-recommended graphviz
 
-ARG WORKDIR /root
+ARG WORKDIR=/root
 WORKDIR $WORKDIR
 RUN git clone https://github.com/doxygen/doxygen.git
 RUN mkdir -pv $WORKDIR/doxygen/build
