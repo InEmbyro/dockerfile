@@ -73,3 +73,9 @@ Once the image was created, you can use the below command to create the PDF file
 ```
 docker run --privileged -it --rm -v $PWD:/root/data crow/ubuntu:doxygenT01 /root/makepdf.sh {DOXYGEN_CONFIG_FILE}
 ```
+
+## Dockerfile, ubuntu-sshserver.dockerfile
+
+This dockerfile is to setup the environment buindling the software and to the ssh-server.
+
+The details refers to [ubuntu-ssh-server](ubuntu-sshserver.dockerfile)
