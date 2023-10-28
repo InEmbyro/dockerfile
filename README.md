@@ -78,4 +78,4 @@ docker run --privileged -it --rm -v $PWD:/root/data crow/ubuntu:doxygenT01 /root
 
 This dockerfile is to setup the environment buindling the software and to the ssh-server.
 
-The details refers to [ubuntu-ssh-server](ubuntu-sshserver.dockerfile)
+The details refers to [ubuntu-ssh-server](ubuntu-sshserver.md)
