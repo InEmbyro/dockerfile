@@ -14,6 +14,9 @@ RUN apt-get update
 RUN apt-get install -y build-essential cmake vim xz-utils flex bison git
 
 WORKDIR /root/
+RUN git clone https://github.com/google/googletest.git -b v1.14.0
+RUN mkdir -pv googletest/build;
+RUN cd googletest/build && cmake .. -DBUILD_GMOCK=OFF && make && make install && rm -rf /root/googletest
 
 RUN apt-get install -y openssh-server
 RUN printf "#!/bin/sh \n \

@@ -4,6 +4,7 @@
 * This dockerfile uses the image, ubuntu:latest.
 * Setup the ssh-server and export the port 22.
 * Also, create a user for logging the environment remotely.
+* The `googleTest` package is also installed.
 
 ## Usage
 
@@ -24,3 +25,39 @@ docker run --privileged -d --rm -p 22:22 -v $PWD:/home/wuser/data crow/ubuntu:ss
 
 The username is `wuser` and the password is `sshserver`. You can use this account to login to the Container.
 
+## CMakefile reference
+
+The below reference shows if the header file of the googletest package is located in `/usr/local/include/`, you need to tell where they are in the `CMakefile.txt`.
+
+```
+target_include_directories(${PROJECT_NAME} 
+    PUBLIC
+        /usr/local/include/
+        ...
+)
+```
+
+When the system has installed `googletest` package, you can use the methods below to tell your project where to find the library.
+
+```
+# for gtest
+add_library(libgtest STATIC IMPORTED)
+set_target_properties(libgtest PROPERTIES IMPORTED_LOCATION /usr/local/lib/libgtest.a)
+set_target_properties(libgtest PROPERTIES INTERFACE_INCLUDE_DIRECTORIES /usr/local/include)
+
+# for gtest_main
+add_library(libgtest_main STATIC IMPORTED)
+set_target_properties(libgtest_main PROPERTIES IMPORTED_LOCATION /usr/local/lib/libgtest_main.a)
+set_target_properties(libgtest_main PROPERTIES INTERFACE_INCLUDE_DIRECTORIES /usr/local/include)
+
+target_link_directories(${PROJECT_NAME} INTERFACE /usr/local/lib)
+target_link_libraries(${PROJECT_NAME} gtest gtest_main)
+```
+
+Because `cmake` suggests not to use `target_link_directories`. So, you can consider use the way below.
+
+```
+find_library(LIBGTEST libgtest.a)
+find_library(LIBGTEST_MAIN libgtest_main.a)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBGTEST} ${LIBGTEST_MAIN})
+```
